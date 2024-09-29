@@ -26,7 +26,10 @@
   </head>
 
   <body>
-    <nav class="navbar navbar-expand-lg" style="background-color: #0e152f">
+    <nav
+      class="navbar navbar-expand-lg sticky-top"
+      style="background-color: #0e152f"
+    >
       <div class="container-fluid">
         <a class="navbar-brand link-light" href="#"
           ><i class="bi bi-bug-fill h4"></i> MLassify</a
@@ -52,23 +55,40 @@
             <a class="nav-link disabled" style="color: white">Disabled</a>
           </li>
         </ul>
-        <button
-          class="btn btn-outline-light"
-          style="margin: 2px"
-          type="submit"
-          title="Authenticate"
-        >
-          <i class="bi bi-person-add h4"></i>
-        </button>
+        {% if 'user_id' in session %}
+        <a href="{{ url_for('main.logout') }}">
+          <button
+            class="btn btn-outline-light"
+            style="margin: 2px"
+            type="submit"
+            title="Logout"
+          >
+            <i class="bi bi-person-dash h4"></i></button
+        ></a>
+        {% else %}
+        <a href="{{ url_for('main.login') }}">
+          <button
+            class="btn btn-outline-light"
+            style="margin: 2px"
+            type="submit"
+            title="Authenticate"
+          >
+            <i class="bi bi-person-add h4"></i></button
+        ></a>
+        {% endif %}
       </div>
     </nav>
-    {% block body %}{% endblock %}
+
+    {% with messages = get_flashed_messages(with_categories=true) %} {% if
+    messages %} {% for category, message in messages %}
+    <div class="alert alert-{{category}}" role="alert">{{message}}</div>
+    {% endfor %} {% endif %} {% endwith %} {% block body %}{% endblock %}
     <footer
       class="bg-body-tertiary text-center text-lg-start fixed-bottom"
       style="background-color: #0e152f"
     >
       <!-- Copyright -->
-      <div class="text-center p-3" style="color: white">
+      <div class="text-left p-3" style="color: white">
         © 2024 Copyright: MLassify. All rights reserved.
       </div>
       <!-- Copyright -->
