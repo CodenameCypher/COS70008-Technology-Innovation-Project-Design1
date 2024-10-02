@@ -2,7 +2,7 @@ from controllers import blueprint
 from controllers.middleware import auth, user
 from flask import render_template
 
-@blueprint.bp.route('/')
+@blueprint.bp.route('/user')
 @auth
 @user
 def user_dashboard():

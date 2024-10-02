@@ -1,5 +1,28 @@
 {% extends 'base.html' %} {% block title %}
 <title>MLassify Home</title>
-{% endblock %} {% block body %}
+{% endblock %} {% block navitems %}
+<ul class="nav justify-content-center">
+  <li class="nav-item">
+    <a
+      class="nav-link"
+      href="{{ url_for('main.user_dashboard') }}"
+      style="color: white"
+      >Home</a
+    >
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="#" style="color: white">Analyze</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="#" style="color: white">Classify</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="#" style="color: white">Predict</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="#" style="color: white">Profile</a>
+  </li>
+</ul>
+{%endblock%} {% block body %}
 <div><h1>User Dashboard</h1></div>
 {% endblock %}

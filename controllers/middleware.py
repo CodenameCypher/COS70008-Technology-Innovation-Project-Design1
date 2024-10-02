@@ -21,7 +21,7 @@ def guest(controller_function):
             if user.isAdmin:
                 return redirect('/admin')
             else:
-                return redirect('/')
+                return redirect('/user')
         else:
             return controller_function(*args, **kwargs)
     return decorated
@@ -33,7 +33,7 @@ def admin(controller_function):
         user = User.query.filter_by(id=session['user_id']).first()
         if not user.isAdmin:
             flash('You need to be an admin to access this page!', 'danger')
-            return redirect('/')
+            return redirect('/user')
         else:
             return controller_function(*args, **kwargs)
     return decorated

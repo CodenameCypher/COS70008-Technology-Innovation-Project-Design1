@@ -7,6 +7,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 app.secret_key = "cos70008swinburneuniversityoftechnology"
 
 
+
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('404.html'), 404

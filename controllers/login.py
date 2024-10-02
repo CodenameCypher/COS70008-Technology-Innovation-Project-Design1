@@ -16,8 +16,8 @@ def login():
             session['user_id'] = userObject.id
             flash("Welcome "+userObject.name+"!",'success')
             if userObject.isAdmin:
-                return redirect('admin/')
-            else: return redirect('/')
+                return redirect('/admin')
+            else: return redirect('/user')
         else:
             flash("Authentication failed!",'danger')
             return redirect('/login')

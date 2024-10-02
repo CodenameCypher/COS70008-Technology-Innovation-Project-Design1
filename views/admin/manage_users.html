@@ -1,0 +1,78 @@
+{% extends 'base.html' %} {% block title %}
+<title>MLassify Home</title>
+{% endblock %} {% block navitems %}
+<ul class="nav justify-content-center">
+  <li class="nav-item">
+    <a
+      class="nav-link"
+      href="{{ url_for('main.admin_dashboard') }}"
+      style="color: white"
+      >Home</a
+    >
+  </li>
+  <li class="nav-item">
+    <a
+      class="nav-link"
+      href="{{ url_for('main.datasets') }}"
+      style="color: white"
+      >Datasets</a
+    >
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="#" style="color: white">Train & Analyze</a>
+  </li>
+  <li class="nav-item">
+    <a
+      class="nav-link"
+      href="{{ url_for('main.manage_users') }}"
+      style="color: white"
+      >Manage</a
+    >
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="#" style="color: white">Profile</a>
+  </li>
+</ul>
+{%endblock%} {% block body %}
+<div class="d-flex flex-column justify-content-center align-items-center">
+  <h1 style="margin: 2%">Users</h1>
+  <table
+    class="table table-hover table-bordered align-middle"
+    style="width: 90%; text-align: center"
+  >
+    <thead class="table-dark">
+      <th>#</th>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Role</th>
+      <th>Actions</th>
+    </thead>
+    {% for user in users %} {% if user.isAdmin %}
+    <tr class="table-danger">
+      <td>{{ loop.index }}</td>
+      <td>{{ user.id }}</td>
+      <td>{{ user.name }}</td>
+      <td>{{ user.email }}</td>
+      <td>Admin</td>
+      <td>
+        <a><button class="btn btn-danger" disabled>Delete</button></a>
+      </td>
+    </tr>
+    {% else %}
+    <tr class="table-light">
+      <td>{{ loop.index }}</td>
+      <td>{{ user.id }}</td>
+      <td>{{ user.name }}</td>
+      <td>{{ user.email }}</td>
+      <td>User</td>
+      <td>
+        <a href="{{ url_for('main.delete_user',id = user.id)}}"
+          ><button class="btn btn-danger">Delete</button></a
+        >
+      </td>
+    </tr>
+    {% endif %} {% endfor %}
+  </table>
+</div>
+{% endblock %}
