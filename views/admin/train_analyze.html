@@ -1,0 +1,115 @@
+{% extends 'base.html' %} {% block title %}
+<title>Train & Analyze</title>
+{% endblock %} {% block navitems %}
+<ul class="nav justify-content-center">
+  <li class="nav-item">
+    <a
+      class="nav-link"
+      href="{{ url_for('main.admin_dashboard') }}"
+      style="color: white"
+      >Home</a
+    >
+  </li>
+  <li class="nav-item">
+    <a
+      class="nav-link"
+      href="{{ url_for('main.datasets') }}"
+      style="color: white"
+      >Datasets</a
+    >
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="#" style="color: white">Train & Analyze</a>
+  </li>
+  <li class="nav-item">
+    <a
+      class="nav-link"
+      href="{{ url_for('main.manage_users') }}"
+      style="color: white"
+      >Manage</a
+    >
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="#" style="color: white">Profile</a>
+  </li>
+</ul>
+{%endblock%} {% block body %}
+<div class="d-flex flex-column justify-content-center align-items-center">
+  <h1 style="margin: 2%">Train & Analyze</h1>
+
+  <form method="POST" style="text-align: center">
+    <select
+      class="form-select form-select-lg mb-3"
+      aria-label=".form-select-lg example"
+      name="algorithm"
+      id="algorithm"
+    >
+      <option selected>Choose ML Model</option>
+      <option value="rf_knn">RF + KNN</option>
+      <option value="rf_svm">RF + SVM</option>
+    </select>
+
+    <select
+      class="form-select form-select-lg mb-3"
+      aria-label=".form-select-lg example"
+      name="dataset"
+      id="dataset"
+    >
+      <option selected>Choose Dataset</option>
+      {% for file in files %}
+      <option value="{{file}}">{{file}}</option>
+      {% endfor %}
+    </select>
+    <div class="mb-3">
+      <input
+        type="text"
+        class="form-control"
+        id="class"
+        name="class"
+        placeholder="Label Column Name"
+      />
+    </div>
+    <button
+      class="btn btn-primary"
+      type="submit"
+      style="background-color: #0e152f"
+    >
+      Train
+    </button>
+  </form>
+
+  {% if models|length > 0 %}
+  <table
+    class="table table-hover table-bordered align-middle"
+    style="width: 90%; text-align: center; margin-top: 20px"
+  >
+    <thead class="table-dark">
+      <th>#</th>
+      <th>Model Name</th>
+      <th>Trained Date</th>
+      <th>Dataset</th>
+      <th>Training Algorithm</th>
+      <th>Accuracy</th>
+      <th>Action</th>
+    </thead>
+    {% for model in models %}
+    <tr>
+      <td>{{ loop.index }}</td>
+      <td>{{ model.model_name }}.pkl</td>
+      <td>{{ model.trained_time }}</td>
+      <td>{{ model.dataset_name }}</td>
+      <td>{{ model.training_algorithm }}</td>
+      <td>{{ "%.02f%%" | format(model.accuracy|float * 100) }}</td>
+      <td>
+        <a href="#"><button class="btn btn-success">Analyze</button></a>
+        <a
+          href="{{ url_for('main.delete_model',model_name = model.model_name) }}"
+          ><button class="btn btn-danger">Delete</button></a
+        >
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+  {% endif %}
+</div>
+{% endblock %}

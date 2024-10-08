@@ -8,7 +8,6 @@ from app import app
 @auth
 @admin
 def delete_dataset(file):
-    print(file)
     try:
         os.remove(os.path.join(app.instance_path, 'datasets',file))
         flash(file+" deleted successfully!",'success')

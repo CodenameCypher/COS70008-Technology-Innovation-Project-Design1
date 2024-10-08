@@ -1,5 +1,5 @@
 {% extends 'base.html' %} {% block title %}
-<title>MLassify Home</title>
+<title>Manage Users</title>
 {% endblock %} {% block navitems %}
 <ul class="nav justify-content-center">
   <li class="nav-item">
@@ -19,7 +19,12 @@
     >
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="#" style="color: white">Train & Analyze</a>
+    <a
+      class="nav-link"
+      href="{{ url_for('main.train_analyze') }}"
+      style="color: white"
+      >Train & Analyze</a
+    >
   </li>
   <li class="nav-item">
     <a

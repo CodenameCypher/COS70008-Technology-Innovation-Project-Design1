@@ -22,4 +22,3 @@ class User(database.Model):
         database.session.add(self)
         database.session.commit()
 
-
