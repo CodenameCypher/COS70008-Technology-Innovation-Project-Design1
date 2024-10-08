@@ -1,0 +1,90 @@
+{% extends 'base.html' %} {% block title %}
+<title>Model - Analyze</title>
+{% endblock %} {% block navitems %}
+<ul class="nav justify-content-center">
+  <li class="nav-item">
+    <a
+      class="nav-link"
+      href="{{ url_for('main.admin_dashboard') }}"
+      style="color: white"
+      >Home</a
+    >
+  </li>
+  <li class="nav-item">
+    <a
+      class="nav-link"
+      href="{{ url_for('main.datasets') }}"
+      style="color: white"
+      >Datasets</a
+    >
+  </li>
+  <li class="nav-item">
+    <a
+      class="nav-link"
+      href="{{ url_for('main.train_analyze') }}"
+      style="color: white"
+      >Train & Analyze</a
+    >
+  </li>
+  <li class="nav-item">
+    <a
+      class="nav-link"
+      href="{{ url_for('main.manage_users') }}"
+      style="color: white"
+      >Manage</a
+    >
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="#" style="color: white">Profile</a>
+  </li>
+</ul>
+{%endblock%} {% block body %}
+<div
+  class="d-flex flex-column justify-content-center align-items-center"
+  style="margin-bottom: 60px"
+>
+  <div class="container" style="text-align: center">
+    <div style="margin: 20px">
+      <img
+        src="https://cdn-icons-png.flaticon.com/512/653/653780.png"
+        alt=""
+        style="height: 120px"
+      />
+    </div>
+    <p><b>Model Name:</b> {{model.model_name}}.pkl</p>
+    <p><b>Training Dataset:</b> {{model.dataset_name}}</p>
+    <p><b>Training Algorithm:</b> {{model.training_algorithm}}</p>
+    <p>
+      <b>Accuracy:</b> {{ "%.02f%%" | format(model.accuracy|float * 100) }} ||
+      <b>Precision:</b> {{ "%.02f%%" | format(model.precision|float * 100) }}
+    </p>
+    <p>
+      <b>Recall:</b> {{ "%.02f%%" | format(model.recall|float * 100) }} ||
+      <b>F1-Score:</b> {{ "%.02f%%" | format(model.f1|float * 100) }}
+    </p>
+    <hr />
+    <img
+      src="{{url_for('static', filename='models/'+model.model_name+'/class_dist.png')}}"
+      class="img-fluid"
+      style="height: 500px"
+    /><br />
+    <img
+      src="{{url_for('static', filename='models/'+model.model_name+'/features.png')}}"
+      class="img-fluid"
+      style="height: 500px"
+    /><br />
+    <img
+      src="{{url_for('static', filename='models/'+model.model_name+'/cfm.png')}}"
+      class="img-fluid"
+      style="height: 500px"
+    /><br />
+    {% if 'KNN' in model.training_algorithm %}
+    <img
+      src="{{url_for('static', filename='models/'+model.model_name+'/knn_neighbors.png')}}"
+      class="img-fluid"
+      style="height: 500px"
+    /><br />
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

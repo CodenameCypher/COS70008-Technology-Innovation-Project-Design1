@@ -101,7 +101,9 @@
       <td>{{ model.training_algorithm }}</td>
       <td>{{ "%.02f%%" | format(model.accuracy|float * 100) }}</td>
       <td>
-        <a href="#"><button class="btn btn-success">Analyze</button></a>
+        <a href="{{ url_for('main.analyze',model_name = model.model_name) }}"
+          ><button class="btn btn-success">Analyze</button></a
+        >
         <a
           href="{{ url_for('main.delete_model',model_name = model.model_name) }}"
           ><button class="btn btn-danger">Delete</button></a

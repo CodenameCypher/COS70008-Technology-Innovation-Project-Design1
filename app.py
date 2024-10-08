@@ -2,7 +2,7 @@ from flask import Flask, render_template
 from controllers import blueprint
 from models.database import database
 
-app = Flask(__name__, template_folder="views")
+app = Flask(__name__, template_folder="views", static_folder="instance")
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 app.secret_key = "cos70008swinburneuniversityoftechnology"
 

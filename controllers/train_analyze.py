@@ -250,7 +250,7 @@ def RF_SVM(dataset, label, folderPath):
     conf_matrix = confusion_matrix(y_test, y_pred)
     plt.figure(figsize=(10, 6))
     sns.heatmap(conf_matrix, annot=True, fmt='d', cmap='Blues', xticklabels=np.unique(y_test), yticklabels=np.unique(y_test))
-    plt.title('Confusion Matrix for Random Forest + KNN')
+    plt.title('Confusion Matrix for Random Forest + SVM')
     plt.xlabel('Predicted')
     plt.ylabel('True')
     plt.savefig(folderPath+'/cfm.png')
