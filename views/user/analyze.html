@@ -1,0 +1,72 @@
+{% extends 'base.html' %} {% block title %}
+<title>Models & Analysis</title>
+{% endblock %} {% block navitems %}
+<ul class="nav justify-content-center">
+  <li class="nav-item">
+    <a
+      class="nav-link"
+      href="{{ url_for('main.user_dashboard') }}"
+      style="color: white"
+      >Home</a
+    >
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="#" style="color: white">Analyze</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="#" style="color: white">Classify</a>
+  </li>
+  <li class="nav-item">
+    <a
+      class="nav-link"
+      href="{{ url_for('main.profile') }}"
+      style="color: white"
+      >Profile</a
+    >
+  </li>
+</ul>
+{%endblock%} {% block body %}
+<div class="d-flex flex-column justify-content-center align-items-center">
+  <h1 style="margin: 2%">Models & Analysis</h1>
+
+  {% if models|length > 0 %}
+  <table
+    class="table table-hover table-bordered align-middle"
+    style="width: 90%; text-align: center; margin-top: 20px"
+  >
+    <thead class="table-dark">
+      <th>#</th>
+      <th>Model Name</th>
+      <th>Trained Date</th>
+      <th>Dataset</th>
+      <th>Training Algorithm</th>
+      <th>Accuracy</th>
+      <th>Action</th>
+    </thead>
+    {% for model in models %}
+    <tr>
+      <td>{{ loop.index }}</td>
+      <td>{{ model.model_name }}.pkl</td>
+      <td>{{ model.trained_time }}</td>
+      <td>{{ model.dataset_name }}</td>
+      <td>{{ model.training_algorithm }}</td>
+      <td>{{ "%.02f%%" | format(model.accuracy|float * 100) }}</td>
+      <td>
+        <a href="{{ url_for('main.analyze',model_name = model.model_name) }}"
+          ><button class="btn btn-success">
+            <i class="bi bi-clipboard2-data-fill"></i> Analyze
+          </button></a
+        >
+        <a
+          href="{{ url_for('main.delete_model',model_name = model.model_name) }}"
+          ><button class="btn btn-danger">
+            <i class="bi bi-trash3-fill"></i> Delete
+          </button></a
+        >
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+  {% endif %}
+</div>
+{% endblock %}

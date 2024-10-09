@@ -1,11 +1,11 @@
 {% extends 'base.html' %} {% block title %}
-<title>Profile</title>
+<title>MLassify Profile</title>
 {% endblock %} {% block navitems %}
 <ul class="nav justify-content-center">
   <li class="nav-item">
     <a
       class="nav-link"
-      href="{{ url_for('main.admin_dashboard') }}"
+      href="{{ url_for('main.user_dashboard') }}"
       style="color: white"
       >Home</a
     >
@@ -13,26 +13,13 @@
   <li class="nav-item">
     <a
       class="nav-link"
-      href="{{ url_for('main.datasets') }}"
+      href="{{ url_for('main.user_analyze') }}"
       style="color: white"
-      >Datasets</a
+      >Analyze</a
     >
   </li>
   <li class="nav-item">
-    <a
-      class="nav-link"
-      href="{{ url_for('main.train_analyze') }}"
-      style="color: white"
-      >Train & Analyze</a
-    >
-  </li>
-  <li class="nav-item">
-    <a
-      class="nav-link"
-      href="{{ url_for('main.manage_users') }}"
-      style="color: white"
-      >Manage</a
-    >
+    <a class="nav-link" href="#" style="color: white">Classify</a>
   </li>
   <li class="nav-item">
     <a

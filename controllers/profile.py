@@ -5,9 +5,8 @@ from models.user import User
 import bcrypt
 from models.database import database
 
-@blueprint.bp.route('/admin/profile', methods=['GET', 'POST'])
+@blueprint.bp.route('/profile', methods=['GET', 'POST'])
 @auth
-@admin
 def profile():
     userObject = User.query.filter_by(id=session['user_id']).first()
     if request.method == 'POST':
@@ -30,6 +29,6 @@ def profile():
         except:
             flash('Profile update failed!','danger')
 
-        return redirect('/admin/profile')
+        return redirect('/profile')
     else:
-        return render_template('admin/profile.html', user=userObject)
+        return render_template('user/profile.html', user=userObject)

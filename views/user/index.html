@@ -11,18 +11,134 @@
     >
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="#" style="color: white">Analyze</a>
+    <a
+      class="nav-link"
+      href="{{ url_for('main.user_analyze') }}"
+      style="color: white"
+      >Analyze</a
+    >
   </li>
   <li class="nav-item">
     <a class="nav-link" href="#" style="color: white">Classify</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="#" style="color: white">Predict</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="#" style="color: white">Profile</a>
+    <a
+      class="nav-link"
+      href="{{ url_for('main.profile') }}"
+      style="color: white"
+      >Profile</a
+    >
   </li>
 </ul>
 {%endblock%} {% block body %}
-<div><h1>User Dashboard</h1></div>
+<div
+  class="d-flex flex-column justify-content-center align-items-center"
+  style="margin: 20px"
+>
+  <div class="card-group" style="margin: 20px">
+    <div class="card" style="margin: 20px">
+      <img
+        src="https://www.cisco.com/content/dam/cisco-cdc/site/images/heroes/learn/what-is-malware-786x442.png"
+        class="card-img-top"
+        style="padding: 20px"
+      />
+      <div class="card-body">
+        <h5 class="card-title">What is malware?</h5>
+        <p class="card-text">
+          Malware, short for malicious software, refers to any intrusive
+          software developed by cybercriminals (often called hackers) to steal
+          data and damage or destroy computers and computer systems. Examples of
+          common malware include viruses, worms, Trojan viruses, spyware,
+          adware, and ransomware. Recent malware attacks have exfiltrated data
+          in mass amounts.
+        </p>
+        <a
+          href="https://www.cisco.com/site/us/en/learn/topics/security/what-is-malware.html#:~:text=Malware%2C%20short%20for%20malicious%20software,spyware%2C%20adware%2C%20and%20ransomware."
+          class="btn btn-outline-primary"
+          target="_blank"
+          >Learn More <i class="bi bi-box-arrow-up-right"></i
+        ></a>
+      </div>
+    </div>
+    <div class="card" style="margin: 20px">
+      <img
+        src="https://www.fortinet.com/content/dam/fortinet/images/cyberglossary/against-malware.jpg"
+        class="card-img-top"
+        style="padding: 20px"
+      />
+      <div class="card-body">
+        <h5 class="card-title">Protect yourself from malware</h5>
+        <p class="card-text">
+          There are a lot of different ways that malware can spread, but that
+          doesn't mean you're powerless to stop it. Now that you know what
+          malware is and what it can do, let's go over some practical steps you
+          can take to protect yourself.
+        </p>
+        <a
+          href="https://support.google.com/google-ads/answer/2375413?hl=en-AU"
+          class="btn btn-outline-primary"
+          target="_blank"
+          >Learn More <i class="bi bi-box-arrow-up-right"></i
+        ></a>
+      </div>
+    </div>
+    <div class="card" style="margin: 20px">
+      <img
+        src="https://www.cisco.com/c/dam/assets/swa/img/anchor-info/virus-vs-ransomware-628x353.png"
+        class="card-img-top"
+        style="padding: 20px"
+      />
+      <div class="card-body">
+        <h5 class="card-title">Malware V/S Virus</h5>
+        <p class="card-text">
+          The terms malware and virus are often used interchangeably because
+          they have significant overlap. A virus is a specific type of malware,
+          but malware is a general term that also includes many types of
+          malicious software that lack viruses’ ability to self-replicate.
+        </p>
+        <a
+          href="https://www.checkpoint.com/cyber-hub/threat-prevention/what-is-malware/malware-vs-virus/#:~:text=The%20terms%20malware%20and%20virus%20are%20often%20used%20interchangeably%20because,'%20ability%20to%20self%2Dreplicate."
+          class="btn btn-outline-primary"
+          target="_blank"
+          >Learn More <i class="bi bi-box-arrow-up-right"></i
+        ></a>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="btn-group"
+    role="group"
+    aria-label="Basic outlined example"
+    style="margin-top: 20px"
+  >
+    <a href="{{ url_for('main.user_analyze') }}">
+      <button
+        type="button"
+        class="btn btn-primary btn-lg"
+        style="margin-left: 10px; margin-right: 10px"
+      >
+        Analyze
+      </button>
+    </a>
+    <a href="#">
+      <button
+        type="button"
+        class="btn btn-primary btn-lg"
+        style="margin-left: 10px; margin-right: 10px"
+      >
+        Classify
+      </button>
+    </a>
+    <a href="{{ url_for('main.profile') }}">
+      <button
+        type="button"
+        class="btn btn-primary btn-lg"
+        style="margin-left: 10px; margin-right: 10px"
+      >
+        Profile
+      </button>
+    </a>
+  </div>
+</div>
 {% endblock %}
