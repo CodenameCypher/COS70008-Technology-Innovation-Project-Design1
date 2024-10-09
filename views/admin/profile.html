@@ -1,0 +1,104 @@
+{% extends 'base.html' %} {% block title %}
+<title>Model - Analyze</title>
+{% endblock %} {% block navitems %}
+<ul class="nav justify-content-center">
+  <li class="nav-item">
+    <a
+      class="nav-link"
+      href="{{ url_for('main.admin_dashboard') }}"
+      style="color: white"
+      >Home</a
+    >
+  </li>
+  <li class="nav-item">
+    <a
+      class="nav-link"
+      href="{{ url_for('main.datasets') }}"
+      style="color: white"
+      >Datasets</a
+    >
+  </li>
+  <li class="nav-item">
+    <a
+      class="nav-link"
+      href="{{ url_for('main.train_analyze') }}"
+      style="color: white"
+      >Train & Analyze</a
+    >
+  </li>
+  <li class="nav-item">
+    <a
+      class="nav-link"
+      href="{{ url_for('main.manage_users') }}"
+      style="color: white"
+      >Manage</a
+    >
+  </li>
+  <li class="nav-item">
+    <a
+      class="nav-link"
+      href="{{ url_for('main.profile') }}"
+      style="color: white"
+      >Profile</a
+    >
+  </li>
+</ul>
+{%endblock%} {% block body %}
+<div class="d-flex flex-column justify-content-center align-items-center">
+  <div class="container" style="text-align: center; width: 600px">
+    <div style="margin: 20px">
+      <img
+        src="https://static.vecteezy.com/system/resources/previews/019/879/186/non_2x/user-icon-on-transparent-background-free-png.png"
+        alt=""
+        style="height: 120px"
+      />
+    </div>
+    <h2>{{user.name}}</h2>
+    <hr />
+
+    <form method="post" style="margin: 20px">
+      <div class="input-group flex-nowrap">
+        <span class="input-group-text" id="addon-wrapping">Name</span>
+        <input
+          type="text"
+          class="form-control"
+          placeholder="{{user.name}}"
+          name="name"
+          id="name"
+        />
+      </div>
+      <br />
+      <div class="input-group flex-nowrap">
+        <span class="input-group-text" id="addon-wrapping">Email</span>
+        <input
+          type="email"
+          class="form-control"
+          placeholder="{{user.email}}"
+          name="email"
+          id="email"
+        />
+      </div>
+      <br />
+      <div class="input-group flex-nowrap">
+        <span class="input-group-text" id="addon-wrapping">Password</span>
+        <input
+          type="password"
+          class="form-control"
+          placeholder="Enter new password"
+          name="password"
+          id="password"
+        />
+      </div>
+      <br />
+      <button type="submit" class="btn btn btn-outline-primary btn-lg">
+        <i class="bi bi-arrow-repeat"></i> Update
+      </button>
+    </form>
+    <a href="{{ url_for('main.logout') }}">
+      <button class="btn btn-outline-danger" title="Logout">
+        <i class="bi bi-person-dash h4"></i> Logout
+      </button></a
+    >
+  </div>
+</div>
+{% endblock %}

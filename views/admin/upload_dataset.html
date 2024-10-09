@@ -35,7 +35,12 @@
     >
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="#" style="color: white">Profile</a>
+    <a
+      class="nav-link"
+      href="{{ url_for('main.profile') }}"
+      style="color: white"
+      >Profile</a
+    >
   </li>
 </ul>
 {%endblock%} {% block body %}
@@ -49,12 +54,9 @@
       name="file"
       style="width: 100%"
     />
-    <input
-      type="submit"
-      value="Upload"
-      class="btn btn-primary"
-      style="margin-top: 20px"
-    />
+    <button type="submit" class="btn btn-primary" style="margin-top: 20px">
+      <i class="bi bi-file-earmark-arrow-up-fill"></i> Upload
+    </button>
   </form>
 </div>
 {% endblock %}

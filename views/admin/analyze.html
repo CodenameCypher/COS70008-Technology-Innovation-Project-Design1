@@ -35,7 +35,12 @@
     >
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="#" style="color: white">Profile</a>
+    <a
+      class="nav-link"
+      href="{{ url_for('main.profile') }}"
+      style="color: white"
+      >Profile</a
+    >
   </li>
 </ul>
 {%endblock%} {% block body %}
