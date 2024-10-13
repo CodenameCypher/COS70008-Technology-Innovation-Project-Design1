@@ -120,6 +120,11 @@
       <td>{{ model.number_of_features }}</td>
       <td>{{ "%.02f%%" | format(model.accuracy|float * 100) }}</td>
       <td>
+        <a href="{{ url_for('main.edit_model',file = model.model_name) }}"
+          ><button class="btn btn-warning">
+            <i class="bi bi-pencil-square"></i> Edit
+          </button></a
+        >
         <a href="{{ url_for('main.analyze',model_name = model.model_name) }}"
           ><button class="btn btn-success">
             <i class="bi bi-clipboard2-data-fill"></i> Analyze

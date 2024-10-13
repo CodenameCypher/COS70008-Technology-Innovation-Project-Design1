@@ -1,0 +1,6 @@
+class_name,class_label
+Adware,1
+Banking,2
+SMS Malware,3
+Riskware,4
+Benign,5

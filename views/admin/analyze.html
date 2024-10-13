@@ -68,6 +68,14 @@
       <b>F1-Score:</b> {{ "%.02f%%" | format(model.f1|float * 100) }}
     </p>
     <hr />
+    <h3>Classes</h2>
+    <hr>
+    {% for class in classes %}
+    <p>{{class_labels[loop.index-1]}} - {{class}}</p>
+    {% endfor %}
+    <hr>
+    <h3>Model Performance</h3>
+    <hr>
     <img
       src="{{url_for('static', filename='models/'+model.model_name+'/class_dist.png')}}"
       class="img-fluid"

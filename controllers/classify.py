@@ -18,13 +18,19 @@ def classify(model_name):
     if request.method == 'POST':
         inputs = []
 
-        for i in range(int(model_object.number_of_features)):
+        for i in range(feature_list.shape[0]):
             inputs.append(request.form[feature_list['Feature'][i]])
         
         prediction = predict(model_name,os.path.join(app.instance_path, 'models',model_name),inputs)
 
+        try:
+            metadata = pd.read_csv(os.path.join(model_object.folderName,'metadata.csv'))['class_name']
+            predicted_class = metadata[prediction[0]]
+        except:
+            predicted_class = prediction[0]
+
         print(prediction)
-        return render_template('user/result.html', model = model_object, prediction = prediction[0])
+        return render_template('user/result.html', model = model_object, prediction = predicted_class)
     else:
         return render_template('user/classify.html', model = model_object, features = feature_list['Feature'])
     

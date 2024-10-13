@@ -52,7 +52,8 @@ def train_analyze():
                     recall=str(results[2]),
                     f1=str(results[3]),
                     folderName=filepath,
-                    number_of_features = top_features
+                    number_of_features = top_features,
+                    class_name = class_name
                 )
                 database_entry.save()
 
@@ -73,7 +74,8 @@ def train_analyze():
                     recall=str(results[2]),
                     f1=str(results[3]),
                     folderName=filepath,
-                    number_of_features = top_features
+                    number_of_features = top_features,
+                    class_name = class_name
                 )
 
                 database_entry.save()
