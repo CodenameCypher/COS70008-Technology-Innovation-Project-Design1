@@ -31,4 +31,4 @@ def profile():
 
         return redirect('/profile')
     else:
-        return render_template('user/profile.html', user=userObject)
+        return render_template('admin/profile.html', user=userObject) if userObject.isAdmin else render_template('user/profile.html', user=userObject)

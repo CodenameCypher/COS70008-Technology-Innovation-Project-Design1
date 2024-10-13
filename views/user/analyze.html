@@ -11,10 +11,12 @@
     >
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="#" style="color: white">Analyze</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="#" style="color: white">Classify</a>
+    <a
+      class="nav-link"
+      href="{{ url_for('main.user_analyze') }}"
+      style="color: white"
+      >Models</a
+    >
   </li>
   <li class="nav-item">
     <a
@@ -40,6 +42,7 @@
       <th>Trained Date</th>
       <th>Dataset</th>
       <th>Training Algorithm</th>
+      <th>RF Selected Features</th>
       <th>Accuracy</th>
       <th>Action</th>
     </thead>
@@ -50,6 +53,7 @@
       <td>{{ model.trained_time }}</td>
       <td>{{ model.dataset_name }}</td>
       <td>{{ model.training_algorithm }}</td>
+      <td>{{ model.number_of_features }}</td>
       <td>{{ "%.02f%%" | format(model.accuracy|float * 100) }}</td>
       <td>
         <a href="{{ url_for('main.analyze',model_name = model.model_name) }}"
@@ -57,10 +61,9 @@
             <i class="bi bi-clipboard2-data-fill"></i> Analyze
           </button></a
         >
-        <a
-          href="{{ url_for('main.delete_model',model_name = model.model_name) }}"
-          ><button class="btn btn-danger">
-            <i class="bi bi-trash3-fill"></i> Delete
+        <a href="{{ url_for('main.classify',model_name = model.model_name) }}"
+          ><button class="btn btn-warning">
+            <i class="bi bi-diagram-2-fill"></i> Classify
           </button></a
         >
       </td>

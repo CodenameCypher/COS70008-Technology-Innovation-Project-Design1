@@ -8,7 +8,7 @@ from datetime import datetime
 import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import StandardScaler, LabelEncoder
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 from sklearn.metrics import confusion_matrix
@@ -31,6 +31,7 @@ def train_analyze():
         model = request.form['algorithm']
         dataset_name = request.form['dataset']
         class_name = request.form['class'] 
+        top_features = int(request.form['features']) 
 
         dataset = pd.read_csv(os.path.join(app.instance_path, 'datasets',dataset_name))
 
@@ -41,7 +42,7 @@ def train_analyze():
         if model == 'rf_knn':
             os.makedirs(filepath, exist_ok=True)
             try:
-                results = RF_KNN(dataset, class_name, filepath)
+                results = RF_KNN(dataset, class_name, filepath, top_features)
                 database_entry = TrainedModels(
                     model_name,
                     dataset_name,
@@ -50,20 +51,19 @@ def train_analyze():
                     precision=str(results[1]),
                     recall=str(results[2]),
                     f1=str(results[3]),
-                    folderName=filepath
+                    folderName=filepath,
+                    number_of_features = top_features
                 )
-
                 database_entry.save()
 
                 flash('Model training completed!', 'success')
-            except:
-                results = []
+            except Exception as e:
+                print(e)
                 flash('Model training failed!', 'danger')
-            print(results)
         elif model == 'rf_svm':
             os.makedirs(filepath, exist_ok=True)
             try:
-                results = RF_SVM(dataset, class_name, filepath)
+                results = RF_SVM(dataset, class_name, filepath, top_features)
                 database_entry = TrainedModels(
                     model_name,
                     dataset_name,
@@ -72,7 +72,8 @@ def train_analyze():
                     precision=str(results[1]),
                     recall=str(results[2]),
                     f1=str(results[3]),
-                    folderName=filepath
+                    folderName=filepath,
+                    number_of_features = top_features
                 )
 
                 database_entry.save()
@@ -103,8 +104,30 @@ def analyse_dataset(y, folderPath):
     plt.title('Class Distribution in Dataset')
     plt.savefig(folderPath+'/class_dist.png')
 
+def preprocess_data(dataset, class_column):
+    null_values = dataset.isnull().sum()
+    
+    if null_values.sum() > 0:
+        dataset = dataset.dropna()
+
+    for column in dataset.columns:
+        if dataset[column].dtype == 'object':
+            try:
+                dataset[column] = pd.to_numeric(dataset[column], errors='raise')
+            except:
+                pass
+    
+    if class_column:
+        if dataset[class_column].dtype == 'object':
+            label_encoder = LabelEncoder()
+            dataset[class_column] = label_encoder.fit_transform(dataset[class_column])
+    
+    return dataset
+
+
 # rf + knn function
-def RF_KNN(dataset, label, folderPath):
+def RF_KNN(dataset, label, folderPath, top_features):
+    dataset = preprocess_data(dataset, label)
     X = dataset.drop(label, axis=1)  # Features
     y = dataset[label]  # Labels
 
@@ -115,25 +138,27 @@ def RF_KNN(dataset, label, folderPath):
     rf_model = RandomForestClassifier()
     rf_model.fit(X_train, y_train)
 
-    # Standardize the data (important for KNN)
-    scaler = StandardScaler()
-    X_train_scaled = scaler.fit_transform(X_train)
-    X_test_scaled = scaler.transform(X_test)
-
     feature_importances = rf_model.feature_importances_
     important_features_indices = np.argsort(feature_importances)[::-1]
 
-    top_features = 20
-
     # Select top-k features
-    X_train_selected = X_train_scaled[:, important_features_indices[:top_features]]
-    X_test_selected = X_test_scaled[:, important_features_indices[:top_features]]
+    X_train_selected = X_train.to_numpy()[:, important_features_indices[:top_features]]
+    X_test_selected = X_test.to_numpy()[:, important_features_indices[:top_features]]
 
     # Create a DataFrame to map features to their importance scores
     feature_importance_df = pd.DataFrame({
         'Feature': X.columns,  # Use column names from the original dataset
         'Importance': feature_importances
     })
+
+    feature_importance_df['Feature'].head(top_features).to_csv(folderPath+'/selected_features.csv', sep=',', index=False)
+    # Standardize the data (important for KNN)
+    scaler = StandardScaler()
+    X_train_selected = scaler.fit_transform(X_train_selected)
+    X_test_selected = scaler.transform(X_test_selected)
+
+    with open(folderPath+"/scalar.pkl", 'wb') as file:
+        pickle.dump(scaler, file)
 
     # Plot the selected features with their importance
     feature_importance_df = feature_importance_df.sort_values(by='Importance', ascending=False)
@@ -171,7 +196,7 @@ def RF_KNN(dataset, label, folderPath):
     f1 = f1_score(y_test, y_pred, average='weighted')
     
 
-    with open(folderPath+"/rf_knn.pkl", 'wb') as file:
+    with open(folderPath+"/model.pkl", 'wb') as file:
         pickle.dump(knn_best_model, file)
 
     conf_matrix = confusion_matrix(y_test, y_pred)
@@ -194,7 +219,8 @@ def RF_KNN(dataset, label, folderPath):
     
 
 # rf + svm function
-def RF_SVM(dataset, label, folderPath):
+def RF_SVM(dataset, label, folderPath, top_features):
+    dataset = preprocess_data(dataset, label)
     X = dataset.drop(label, axis=1)  # Features
     y = dataset[label]  # Labels
 
@@ -205,25 +231,27 @@ def RF_SVM(dataset, label, folderPath):
     rf_model = RandomForestClassifier()
     rf_model.fit(X_train, y_train)
 
-    # Standardize the data
-    scaler = StandardScaler()
-    X_train_scaled = scaler.fit_transform(X_train)
-    X_test_scaled = scaler.transform(X_test)
-
     feature_importances = rf_model.feature_importances_
     important_features_indices = np.argsort(feature_importances)[::-1]
 
-    top_features = 20
-
     # Select top-k features
-    X_train_selected = X_train_scaled[:, important_features_indices[:top_features]]
-    X_test_selected = X_test_scaled[:, important_features_indices[:top_features]]
+    X_train_selected = X_train.to_numpy()[:, important_features_indices[:top_features]]
+    X_test_selected = X_test.to_numpy()[:, important_features_indices[:top_features]]
 
     # Create a DataFrame to map features to their importance scores
     feature_importance_df = pd.DataFrame({
         'Feature': X.columns,  # Use column names from the original dataset
         'Importance': feature_importances
     })
+
+    feature_importance_df['Feature'].head(top_features).to_csv(folderPath+'/selected_features.csv', sep=',', index=False)
+    # Standardize the data (important for KNN)
+    scaler = StandardScaler()
+    X_train_selected = scaler.fit_transform(X_train_selected)
+    X_test_selected = scaler.transform(X_test_selected)
+
+    with open(folderPath+"/scalar.pkl", 'wb') as file:
+        pickle.dump(scaler, file)
 
     # Plot the selected features with their importance
     feature_importance_df = feature_importance_df.sort_values(by='Importance', ascending=False)
@@ -235,7 +263,7 @@ def RF_SVM(dataset, label, folderPath):
     plt.ylabel("Feature")
     plt.savefig(folderPath+'/features.png')
 
-    svm_model = SVC()  # Enable probability for ROC-AUC
+    svm_model = SVC()
     svm_model.fit(X_train_selected, y_train)
     y_pred = svm_model.predict(X_test_selected)
 
@@ -244,7 +272,7 @@ def RF_SVM(dataset, label, folderPath):
     recall = recall_score(y_test, y_pred, average='weighted')
     f1 = f1_score(y_test, y_pred, average='weighted')
 
-    with open(folderPath+"/rf_svm.pkl", 'wb') as file:
+    with open(folderPath+"/model.pkl", 'wb') as file:
         pickle.dump(svm_model, file)
 
     conf_matrix = confusion_matrix(y_test, y_pred)

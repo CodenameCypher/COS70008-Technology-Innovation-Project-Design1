@@ -13,6 +13,7 @@ import shutil
 def delete_model(model_name):
     try:
         shutil.rmtree(os.path.join(app.instance_path, 'models', model_name))
+        # os.rmdir(os.path.join(app.instance_path, 'models', model_name))
         TrainedModels.query.filter_by(model_name=model_name).delete()
         database.session.commit()
         flash(model_name+" deleted successfully!",'success')

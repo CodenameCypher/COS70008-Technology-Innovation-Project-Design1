@@ -1,0 +1,65 @@
+{% extends 'base.html' %} {% block title %}
+<title>MLassify Home</title>
+{% endblock %} {% block navitems %}
+<ul class="nav justify-content-center">
+  <li class="nav-item">
+    <a
+      class="nav-link"
+      href="{{ url_for('main.user_dashboard') }}"
+      style="color: white"
+      >Home</a
+    >
+  </li>
+  <li class="nav-item">
+    <a
+      class="nav-link"
+      href="{{ url_for('main.user_analyze') }}"
+      style="color: white"
+      >Models</a
+    >
+  </li>
+  <li class="nav-item">
+    <a
+      class="nav-link"
+      href="{{ url_for('main.profile') }}"
+      style="color: white"
+      >Profile</a
+    >
+  </li>
+</ul>
+{%endblock%} {% block body %}
+<div class="container" style="margin-top: 50px; margin-bottom: 50px">
+  <div style="text-align: center; margin-bottom: 20px; align-items: center">
+    <h1>Model Classification</h1>
+    <small
+      ><b>Trained with: </b>{{model.training_algorithm}} selecting top
+      {{model.number_of_features}} features</small
+    ><br />
+    <small
+      ><b>Model Accuracy: </b>{{ "%.02f%%" | format(model.accuracy|float * 100)
+      }}%</small
+    >
+  </div>
+
+  <form method="POST" style="text-align: center">
+    {% for feature in features %}
+    <div class="mb-3 row">
+      <label for="{{feature}}" class="col-sm-2 col-form-label"
+        >{{feature}}</label
+      >
+      <div class="col-sm-10">
+        <input
+          type="text"
+          class="form-control"
+          id="{{feature}}"
+          name="{{feature}}"
+        />
+      </div>
+    </div>
+    {% endfor %}
+    <button class="btn btn-warning btn-lg" type="submit">
+      <i class="bi bi-diagram-2-fill"></i> Classify
+    </button>
+  </form>
+</div>
+{% endblock %}
