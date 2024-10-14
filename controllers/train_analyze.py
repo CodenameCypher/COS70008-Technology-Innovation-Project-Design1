@@ -33,7 +33,7 @@ def train_analyze():
         class_name = request.form['class'] 
         top_features = int(request.form['features']) 
 
-        dataset = pd.read_csv(os.path.join(app.instance_path, 'datasets',dataset_name))
+        dataset = pd.read_csv(os.path.join(app.instance_path, 'datasets',dataset_name),low_memory=False)
 
         model_name ='model'+datetime.now().strftime("%d%m%y%H%M%S")
 
@@ -59,7 +59,7 @@ def train_analyze():
 
                 flash('Model training completed!', 'success')
             except Exception as e:
-                print(e)
+                print("ERROR: "+str(e))
                 flash('Model training failed!', 'danger')
         elif model == 'rf_svm':
             os.makedirs(filepath, exist_ok=True)
