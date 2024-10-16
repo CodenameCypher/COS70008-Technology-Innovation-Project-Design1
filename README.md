@@ -58,9 +58,9 @@ The Hybrid Machine Learning Model follows this training flow:
 
 Ensure you have Python and the required packages installed. You can install the dependencies using:
 
-bash
+```bash
 pip install -r requirements.txt
-
+```
 ### Running the Web Application
 
 1. Clone the repository:
